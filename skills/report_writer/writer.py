@@ -7,6 +7,7 @@ Design principle: Python computes and FORMATS every number; the LLM only organis
   3. The prompt forbids any number that is not in the facts pack (checked later by the evaluation skill).
 
 Input : data/processed/*  (financial analysis, WACC, DCF, comps, valuation summary, fraud risk)
+        reports/{code}_annual_report_qa.json  (annual-report RAG answers with page citations, optional)
         config/report.toml, .env (LLM_API_KEY, LLM_BASE_URL, LLM_MODEL)
 Output: reports/{code}_facts.json        the facts pack (also used for number tracing)
         reports/{code}_prompt.md         the exact prompt sent to the model
@@ -239,7 +240,26 @@ def build_facts(cfg: dict) -> dict:
                          for p in risk["peers_latest"]],
         },
     }
+    qa = annual_report_evidence()
+    if qa:
+        facts["年报证据(RAG检索年报原文, 含页码)"] = qa
     return facts
+
+
+def annual_report_evidence() -> list[dict]:
+    """Answers from the annual-report RAG skill (only citations that passed the page check are kept)."""
+    path = REPORTS / f"{TARGET}_annual_report_qa.json"
+    if not path.exists():
+        return []
+    out = []
+    for item in json.loads(path.read_text(encoding="utf-8")):
+        a = item.get("llm")
+        if not a:
+            continue
+        out.append({"问题": item["question"], "年报回答": a["answer"],
+                    "证据是否充分": "是" if a.get("sufficient") else "否(部分信息年报片段未覆盖)",
+                    "已核验的页码引用": a["valid_citations"]})
+    return out
 
 
 # ---------------------------------------------------------------- prompt
@@ -254,7 +274,9 @@ SYSTEM_PROMPT = """你是一名严谨的A股卖方医药行业分析师，负责
 7. 解释 M-Score 报警时，只引用"触发报警的模型及其驱动"中对应模型的驱动变量。
 8. 解释 PE 与 EV/EBITDA 结论差异时，以"口径说明"为准。
 9. 同一名称的指标若有不同口径（如有息负债），引用时注明口径。
-10. 语言专业、客观、简洁，使用中文。输出 Markdown 格式。"""
+10. "年报证据"是从年报原文检索得到的回答。凡是年报证据已经回答的问题（如费用增加原因、投资对象、业务结构、风险），直接引用其结论，并保留页码出处，格式如（2025年报第198页），不要再标注"待年报验证"；年报证据中的数字可以原样引用。年报证据标明"证据不足"的部分，仍需标注"（待年报验证）"。
+11. 当年报证据与模型推测不一致时，以年报证据为准，并指出推测被修正。
+12. 语言专业、客观、简洁，使用中文。输出 Markdown 格式。"""
 
 REPORT_OUTLINE = """请撰写 {name}（{code}）公司深度研究报告，结构如下：
 
