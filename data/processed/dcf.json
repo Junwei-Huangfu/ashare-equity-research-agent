@@ -1,0 +1,422 @@
+{
+  "target": "sz000538",
+  "name": "云南白药",
+  "valuation_date": "2026-10-08",
+  "base_date": "2026-06-30",
+  "base_year": 2025,
+  "first_period_fraction": 0.5041,
+  "assumptions": {
+    "wacc": 0.059814,
+    "terminal_growth": 0.02,
+    "first_year_growth": 0.0295,
+    "first_year_growth_source": "20260630 revenue YoY",
+    "growth_path": [
+      0.0295,
+      0.0271,
+      0.0247,
+      0.0224,
+      0.02
+    ],
+    "ebit_margin_latest": 0.1197,
+    "ebit_margin_end": 0.1129,
+    "ebit_margin_path": [
+      0.1183,
+      0.117,
+      0.1156,
+      0.1142,
+      0.1129
+    ],
+    "tax_rate": 0.149,
+    "da_pct_revenue": 0.0094,
+    "capex_pct_revenue": 0.0144,
+    "nwc_pct_revenue": 0.2216
+  },
+  "history": [
+    {
+      "year": 1990,
+      "revenue": 32932640.0,
+      "core_ebit": 16047770.0,
+      "ebit_margin": 0.4873,
+      "tax_rate": 0.2276,
+      "da_pct": NaN,
+      "capex_pct": NaN,
+      "nwc_pct": 0.0
+    },
+    {
+      "year": 1991,
+      "revenue": 37260710.0,
+      "core_ebit": 16169680.0,
+      "ebit_margin": 0.434,
+      "tax_rate": 0.4724,
+      "da_pct": NaN,
+      "capex_pct": NaN,
+      "nwc_pct": 0.0
+    },
+    {
+      "year": 1992,
+      "revenue": 44851290.0,
+      "core_ebit": 21625670.0,
+      "ebit_margin": 0.4822,
+      "tax_rate": 0.3596,
+      "da_pct": NaN,
+      "capex_pct": NaN,
+      "nwc_pct": 0.0
+    },
+    {
+      "year": 1993,
+      "revenue": 58364435.49,
+      "core_ebit": 17392692.16,
+      "ebit_margin": 0.298,
+      "tax_rate": 0.1758,
+      "da_pct": NaN,
+      "capex_pct": NaN,
+      "nwc_pct": 0.6842
+    },
+    {
+      "year": 1994,
+      "revenue": 59465065.16,
+      "core_ebit": 16885737.31,
+      "ebit_margin": 0.284,
+      "tax_rate": 0.1502,
+      "da_pct": NaN,
+      "capex_pct": NaN,
+      "nwc_pct": 0.8576
+    },
+    {
+      "year": 1995,
+      "revenue": 78967380.09,
+      "core_ebit": 13614179.74,
+      "ebit_margin": 0.1724,
+      "tax_rate": 0.1489,
+      "da_pct": NaN,
+      "capex_pct": NaN,
+      "nwc_pct": 0.4897
+    },
+    {
+      "year": 1996,
+      "revenue": 93394902.33,
+      "core_ebit": 21197969.57,
+      "ebit_margin": 0.227,
+      "tax_rate": 0.1497,
+      "da_pct": NaN,
+      "capex_pct": NaN,
+      "nwc_pct": 0.337
+    },
+    {
+      "year": 1997,
+      "revenue": 131814157.22,
+      "core_ebit": 30555792.26,
+      "ebit_margin": 0.2318,
+      "tax_rate": 0.1629,
+      "da_pct": NaN,
+      "capex_pct": NaN,
+      "nwc_pct": 0.4643
+    },
+    {
+      "year": 1998,
+      "revenue": 170443039.04,
+      "core_ebit": 36221288.97,
+      "ebit_margin": 0.2125,
+      "tax_rate": 0.1957,
+      "da_pct": 0.0458,
+      "capex_pct": 0.1574,
+      "nwc_pct": 0.2898
+    },
+    {
+      "year": 1999,
+      "revenue": 241232253.83,
+      "core_ebit": 53144476.23,
+      "ebit_margin": 0.2203,
+      "tax_rate": 0.1783,
+      "da_pct": 0.0412,
+      "capex_pct": 0.121,
+      "nwc_pct": 0.5233
+    },
+    {
+      "year": 2000,
+      "revenue": 806404958.78,
+      "core_ebit": 69655355.23,
+      "ebit_margin": 0.0864,
+      "tax_rate": 0.1136,
+      "da_pct": 0.0165,
+      "capex_pct": 0.045,
+      "nwc_pct": 0.1059
+    },
+    {
+      "year": 2001,
+      "revenue": 900299289.51,
+      "core_ebit": 83314431.71,
+      "ebit_margin": 0.0925,
+      "tax_rate": 0.0108,
+      "da_pct": 0.0204,
+      "capex_pct": 0.0389,
+      "nwc_pct": 0.1295
+    },
+    {
+      "year": 2002,
+      "revenue": 1100942499.49,
+      "core_ebit": 118091550.62,
+      "ebit_margin": 0.1073,
+      "tax_rate": 0.1539,
+      "da_pct": 0.0188,
+      "capex_pct": 0.0326,
+      "nwc_pct": 0.1214
+    },
+    {
+      "year": 2003,
+      "revenue": 1344834378.8,
+      "core_ebit": 128565497.77,
+      "ebit_margin": 0.0956,
+      "tax_rate": 0.1038,
+      "da_pct": 0.0173,
+      "capex_pct": 0.0242,
+      "nwc_pct": 0.0902
+    },
+    {
+      "year": 2004,
+      "revenue": 1832312196.86,
+      "core_ebit": 192681457.19,
+      "ebit_margin": 0.1052,
+      "tax_rate": 0.1674,
+      "da_pct": 0.0145,
+      "capex_pct": 0.0109,
+      "nwc_pct": 0.092
+    },
+    {
+      "year": 2005,
+      "revenue": 2448395021.84,
+      "core_ebit": 265988884.49,
+      "ebit_margin": 0.1086,
+      "tax_rate": 0.1521,
+      "da_pct": 0.0098,
+      "capex_pct": 0.0099,
+      "nwc_pct": 0.0489
+    },
+    {
+      "year": 2006,
+      "revenue": 3204365599.9,
+      "core_ebit": 341095386.32,
+      "ebit_margin": 0.1064,
+      "tax_rate": 0.1592,
+      "da_pct": 0.0088,
+      "capex_pct": 0.0303,
+      "nwc_pct": 0.0868
+    },
+    {
+      "year": 2007,
+      "revenue": 4263268552.25,
+      "core_ebit": 466428716.82,
+      "ebit_margin": 0.1094,
+      "tax_rate": 0.1487,
+      "da_pct": 0.01,
+      "capex_pct": 0.0044,
+      "nwc_pct": 0.2079
+    },
+    {
+      "year": 2008,
+      "revenue": 5723198667.65,
+      "core_ebit": 563080269.35,
+      "ebit_margin": 0.0984,
+      "tax_rate": 0.1652,
+      "da_pct": 0.0064,
+      "capex_pct": 0.0555,
+      "nwc_pct": 0.1433
+    },
+    {
+      "year": 2009,
+      "revenue": 7171784043.63,
+      "core_ebit": 663589486.92,
+      "ebit_margin": 0.0925,
+      "tax_rate": 0.1367,
+      "da_pct": 0.0049,
+      "capex_pct": 0.07,
+      "nwc_pct": 0.1601
+    },
+    {
+      "year": 2010,
+      "revenue": 10075437834.26,
+      "core_ebit": 1037066989.11,
+      "ebit_margin": 0.1029,
+      "tax_rate": 0.1091,
+      "da_pct": 0.0038,
+      "capex_pct": 0.0574,
+      "nwc_pct": 0.2071
+    },
+    {
+      "year": 2011,
+      "revenue": 11312322432.03,
+      "core_ebit": 1345264576.08,
+      "ebit_margin": 0.1189,
+      "tax_rate": 0.1393,
+      "da_pct": 0.0034,
+      "capex_pct": 0.0323,
+      "nwc_pct": 0.3173
+    },
+    {
+      "year": 2012,
+      "revenue": 13815242069.46,
+      "core_ebit": 1811529786.08,
+      "ebit_margin": 0.1311,
+      "tax_rate": 0.1352,
+      "da_pct": 0.0068,
+      "capex_pct": 0.0087,
+      "nwc_pct": 0.3161
+    },
+    {
+      "year": 2013,
+      "revenue": 15814790880.81,
+      "core_ebit": 2145596664.28,
+      "ebit_margin": 0.1357,
+      "tax_rate": 0.1406,
+      "da_pct": 0.0058,
+      "capex_pct": 0.0048,
+      "nwc_pct": 0.3347
+    },
+    {
+      "year": 2014,
+      "revenue": 18814366372.74,
+      "core_ebit": 2600995692.97,
+      "ebit_margin": 0.1382,
+      "tax_rate": 0.1419,
+      "da_pct": 0.0049,
+      "capex_pct": 0.0096,
+      "nwc_pct": 0.3262
+    },
+    {
+      "year": 2015,
+      "revenue": 20738126205.08,
+      "core_ebit": 3024977085.8,
+      "ebit_margin": 0.1459,
+      "tax_rate": 0.143,
+      "da_pct": 0.006,
+      "capex_pct": 0.0065,
+      "nwc_pct": 0.3157
+    },
+    {
+      "year": 2016,
+      "revenue": 22410654404.31,
+      "core_ebit": 3214829731.86,
+      "ebit_margin": 0.1435,
+      "tax_rate": 0.1373,
+      "da_pct": 0.0053,
+      "capex_pct": 0.0063,
+      "nwc_pct": 0.2867
+    },
+    {
+      "year": 2017,
+      "revenue": 24314614044.21,
+      "core_ebit": 3343110285.45,
+      "ebit_margin": 0.1375,
+      "tax_rate": 0.1351,
+      "da_pct": 0.0055,
+      "capex_pct": 0.0079,
+      "nwc_pct": 0.3508
+    },
+    {
+      "year": 2018,
+      "revenue": 27016914505.41,
+      "core_ebit": 3747344727.5,
+      "ebit_margin": 0.1387,
+      "tax_rate": 0.0585,
+      "da_pct": 0.0055,
+      "capex_pct": 0.0206,
+      "nwc_pct": 0.3423
+    },
+    {
+      "year": 2019,
+      "revenue": 29664673868.68,
+      "core_ebit": 3042014028.56,
+      "ebit_margin": 0.1025,
+      "tax_rate": 0.117,
+      "da_pct": 0.006,
+      "capex_pct": 0.0264,
+      "nwc_pct": 0.3293
+    },
+    {
+      "year": 2020,
+      "revenue": 32742766763.79,
+      "core_ebit": 4085696038.51,
+      "ebit_margin": 0.1248,
+      "tax_rate": 0.1897,
+      "da_pct": 0.0058,
+      "capex_pct": 0.0149,
+      "nwc_pct": 0.3012
+    },
+    {
+      "year": 2021,
+      "revenue": 36373919016.03,
+      "core_ebit": 4375819403.32,
+      "ebit_margin": 0.1203,
+      "tax_rate": 0.1965,
+      "da_pct": 0.0101,
+      "capex_pct": 0.0147,
+      "nwc_pct": 0.2176
+    },
+    {
+      "year": 2022,
+      "revenue": 36488372649.73,
+      "core_ebit": 4058326047.48,
+      "ebit_margin": 0.1112,
+      "tax_rate": 0.1589,
+      "da_pct": 0.0132,
+      "capex_pct": 0.0122,
+      "nwc_pct": 0.2483
+    },
+    {
+      "year": 2023,
+      "revenue": 39111292156.0,
+      "core_ebit": 3769298487.15,
+      "ebit_margin": 0.0964,
+      "tax_rate": 0.1443,
+      "da_pct": 0.0095,
+      "capex_pct": 0.0147,
+      "nwc_pct": 0.2347
+    },
+    {
+      "year": 2024,
+      "revenue": 40033300814.72,
+      "core_ebit": 4670948418.37,
+      "ebit_margin": 0.1167,
+      "tax_rate": 0.1614,
+      "da_pct": 0.0087,
+      "capex_pct": 0.0169,
+      "nwc_pct": 0.2248
+    },
+    {
+      "year": 2025,
+      "revenue": 41186999090.31,
+      "core_ebit": 4929884765.25,
+      "ebit_margin": 0.1197,
+      "tax_rate": 0.1412,
+      "da_pct": 0.0101,
+      "capex_pct": 0.0116,
+      "nwc_pct": 0.2053
+    }
+  ],
+  "enterprise_value_yi": 947.62,
+  "pv_explicit_fcff_yi": 151.55,
+  "terminal_value_yi": 1034.17,
+  "pv_terminal_value_yi": 796.07,
+  "terminal_value_share_of_ev": 0.8401,
+  "bridge_yi": {
+    "货币资金": 95.7,
+    "减:经营性现金(营收x比例)": 8.24,
+    "+超额现金": 87.46,
+    "+交易性金融资产": 47.51,
+    "+其他非流动金融资产": 3.12,
+    "+其他权益工具投资": 0.72,
+    "+长期股权投资": 136.48,
+    "+投资性房地产": 0.47,
+    "-短期借款": 0.25,
+    "-一年内到期的非流动负债": 1.65,
+    "-长期借款": 0.02,
+    "-租赁负债": 1.33,
+    "-少数股东权益": 0.75
+  },
+  "equity_value_yi": 1219.39,
+  "shares_yi": 17.8426,
+  "value_per_share": 68.34,
+  "price": 50.89,
+  "price_date": "2026-10-08",
+  "upside": 0.3429
+}

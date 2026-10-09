@@ -14,4 +14,36 @@ beta_lookback_years = 3        # regression window
 beta_frequency = "W-FRI"       # weekly returns (Friday close); daily = too noisy, monthly = too few points
 beta_blume_adjust = true       # adjusted beta = 0.67 x raw + 0.33 (betas drift towards 1 over time)
 pre_tax_cost_of_debt = 0.03    # interest-bearing debt is tiny, so this barely matters
-tax_rate = 0.15                # placeholder, to be confirmed in the DCF step
+tax_rate = 0.15                # statutory (Western Development) rate, only used for the debt tax shield (immaterial)
+
+[dcf]
+forecast_years = 5             # explicit forecast 2026E-2030E; China market changes fast, company is mature
+terminal_growth = 0.02         # above 10Y CGB (1.69%), well below long-run nominal GDP
+
+# Revenue growth: year 1 anchored to 2026H1 YoY, then a straight line down to terminal_growth by year 5
+first_year_growth = "h1_yoy"   # or a number, e.g. 0.03
+
+# Core EBIT margin = (revenue - COGS - taxes&surcharges - selling - admin - R&D) / revenue
+# Judgement: margin falls back over time. Fades linearly from the latest year to the 5-year average.
+ebit_margin_end = "avg5"       # or a number, e.g. 0.10
+
+# Tax: effective rate = income tax / profit before tax, average of the last 3 years
+tax_rate = "avg3"              # or a number, e.g. 0.15
+
+# Reinvestment, all as % of revenue, average of the last 3 years (or put a number)
+da_pct_revenue = "avg3"        # depreciation & amortisation
+capex_pct_revenue = "avg3"     # capital expenditure
+nwc_pct_revenue = "avg3"       # operating working capital; delta NWC = nwc% x delta revenue
+
+[bridge]
+# Enterprise value -> equity value, using the latest PUBLISHED balance sheet
+operating_cash_pct_revenue = 0.02   # cash kept for daily operations is NOT excess cash
+add_non_operating = ["交易性金融资产", "其他非流动金融资产", "其他权益工具投资", "长期股权投资", "投资性房地产"]
+# 长期股权投资 at book value (its income sits in 投资收益, outside core EBIT); market value would be better
+# 其他流动资产 excluded on purpose: content unclear (may include deductible VAT) -> conservative
+subtract_debt = ["短期借款", "一年内到期的非流动负债", "长期借款", "应付债券", "租赁负债"]
+subtract_minority = "少数股东权益"
+
+[sensitivity]
+wacc = [0.050, 0.055, 0.060, 0.065, 0.070, 0.075, 0.080]
+terminal_growth = [0.015, 0.0175, 0.020, 0.0225, 0.025]
