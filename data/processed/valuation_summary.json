@@ -1,0 +1,58 @@
+{
+  "target": "sz000538",
+  "name": "云南白药",
+  "valuation_date": "2026-10-08",
+  "price": 50.89,
+  "dcf_base_value": 68.34,
+  "dcf_base_upside": 0.3429,
+  "fair_value_range": [
+    50.51,
+    68.09
+  ],
+  "fair_value_range_basis": "DCF, terminal growth 2.00%, WACC 8.0% to 6.0%",
+  "upside_at_range": [
+    -0.0075,
+    0.338
+  ],
+  "comps": {
+    "PE(TTM)": {
+      "target_multiple": 17.39,
+      "peer_median": 23.16,
+      "peer_p25": 12.47,
+      "peer_p75": 35.22,
+      "implied_price": 67.78,
+      "implied_price_p25": 36.51,
+      "implied_price_p75": 103.08,
+      "peers_used": 4,
+      "peers_excluded": []
+    },
+    "PB": {
+      "target_multiple": 2.22,
+      "peer_median": 2.1,
+      "peer_p25": 1.54,
+      "peer_p75": 3.03,
+      "implied_price": 48.02,
+      "implied_price_p25": 35.3,
+      "implied_price_p75": 69.4,
+      "peers_used": 4,
+      "peers_excluded": []
+    },
+    "EV/EBITDA": {
+      "target_multiple": 11.54,
+      "peer_median": 10.84,
+      "peer_p25": 9.18,
+      "peer_p75": 18.34,
+      "implied_price": 48.75,
+      "implied_price_p25": 43.7,
+      "implied_price_p75": 71.63,
+      "peers_used": 4,
+      "peers_excluded": []
+    }
+  },
+  "comps_within_dcf_range": {
+    "PE(TTM)": true,
+    "PB": false,
+    "EV/EBITDA": false
+  },
+  "implied_pe_from_dcf": 23.35
+}

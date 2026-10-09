@@ -47,3 +47,17 @@ subtract_minority = "少数股东权益"
 [sensitivity]
 wacc = [0.050, 0.055, 0.060, 0.065, 0.070, 0.075, 0.080]
 terminal_growth = [0.015, 0.0175, 0.020, 0.0225, 0.025]
+
+[comps]
+# Peers = every company in COMPANIES except the target (片仔癀, 同仁堂, 白云山, 华润三九)
+# Median, not mean: 片仔癀 (single blockbuster product, ~40x PE) would pull the mean up
+statistic = "median"
+# EV for EV/EBITDA uses the SAME bridge items as the DCF ([bridge] above), applied to every company,
+# so EV/EBITDA is on core operations only for all five companies (like-for-like)
+
+[conclusion]
+# How the final value is presented: DCF base case as the point estimate,
+# fair-value range = DCF at terminal growth fixed, WACC from wacc_low to wacc_high,
+# comparable-company multiples shown as a cross-check (not averaged in)
+wacc_low = 0.06                # ~ CAPM result
+wacc_high = 0.08               # ~ discount rate implied by the current share price; common in broker reports
