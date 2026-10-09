@@ -1,0 +1,17 @@
+# ============================================================
+# Valuation assumptions for the target company
+# Every number in this file is a human judgement.
+# To change the valuation, edit this file — never the code.
+# ============================================================
+
+[general]
+target = "sz000538"            # 云南白药
+valuation_date = "2026-10-08"  # market-data cut-off: price, market cap, risk-free rate
+
+[wacc]
+equity_risk_premium = 0.06     # A-share common range 5%-7%; mid-point
+beta_lookback_years = 3        # regression window
+beta_frequency = "W-FRI"       # weekly returns (Friday close); daily = too noisy, monthly = too few points
+beta_blume_adjust = true       # adjusted beta = 0.67 x raw + 0.33 (betas drift towards 1 over time)
+pre_tax_cost_of_debt = 0.03    # interest-bearing debt is tiny, so this barely matters
+tax_rate = 0.15                # placeholder, to be confirmed in the DCF step

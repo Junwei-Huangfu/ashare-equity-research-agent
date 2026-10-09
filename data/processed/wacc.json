@@ -1,0 +1,55 @@
+{
+  "target": "sz000538",
+  "name": "云南白药",
+  "valuation_date": "2026-10-08",
+  "risk_free_rate": 0.016899,
+  "risk_free_date": "2026-10-08",
+  "beta": {
+    "raw_beta": 0.578,
+    "adjusted_beta": 0.7173,
+    "r_squared": 0.2562,
+    "n_weeks": 152,
+    "window": "2023-10-20 ~ 2026-10-09"
+  },
+  "equity_risk_premium": 0.06,
+  "cost_of_equity": 0.059937,
+  "market_cap": 90801123866.67,
+  "market_cap_date": "2026-10-08",
+  "interest_bearing_debt": 325162160.82,
+  "debt_report_date": "20260630",
+  "weight_equity": 0.996432,
+  "weight_debt": 0.003568,
+  "pre_tax_cost_of_debt": 0.03,
+  "after_tax_cost_of_debt": 0.0255,
+  "wacc": 0.059814,
+  "peer_betas": {
+    "片仔癀": {
+      "raw_beta": 0.8203,
+      "adjusted_beta": 0.8796,
+      "r_squared": 0.1812,
+      "n_weeks": 152,
+      "window": "2023-10-20 ~ 2026-10-09"
+    },
+    "同仁堂": {
+      "raw_beta": 0.8861,
+      "adjusted_beta": 0.9237,
+      "r_squared": 0.2886,
+      "n_weeks": 152,
+      "window": "2023-10-20 ~ 2026-10-09"
+    },
+    "白云山": {
+      "raw_beta": 0.7065,
+      "adjusted_beta": 0.8034,
+      "r_squared": 0.3432,
+      "n_weeks": 152,
+      "window": "2023-10-20 ~ 2026-10-09"
+    },
+    "华润三九": {
+      "raw_beta": 0.6423,
+      "adjusted_beta": 0.7604,
+      "r_squared": 0.1414,
+      "n_weeks": 152,
+      "window": "2023-10-20 ~ 2026-10-09"
+    }
+  }
+}
