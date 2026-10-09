@@ -7,6 +7,8 @@ Sources (all verified to be reachable from Australia):
         right-of-use asset depreciation is classified differently.
   - Price / shares / mkt cap / PE / PB : East Money (ak.stock_value_em)
   - China 10Y government bond yield    : ak.bond_zh_us_rate
+  - Daily prices, back-adjusted (后复权) : Sina (ak.stock_zh_a_daily, adjust="hfq")  -> for Beta
+  - CSI 300 index (沪深300)             : Sina (ak.stock_zh_index_daily)            -> for Beta
 
 Usage (run from the project root):
     python skills/data_fetch/data_fetch.py                 # all companies, use cache
@@ -33,6 +35,7 @@ COMPANIES = {
     "sz000999": "华润三九",  # peer
 }
 STATEMENTS = ["资产负债表", "利润表", "现金流量表"]
+PRICE_START = "20200101"  # price history start date (enough for a 3-year weekly Beta)
 
 # East Money D&A columns we keep (yuan). Note: OILGAS_BIOLOGY_DEPR duplicates FA_IR_DEPR, so it is NOT kept.
 DNA_COLUMNS = {
@@ -98,6 +101,35 @@ def fetch_market(code: str, refresh: bool = False) -> None:
     time.sleep(1)
 
 
+def fetch_prices(code: str, refresh: bool = False) -> None:
+    """Daily back-adjusted (后复权) prices, used to compute Beta.
+
+    Back-adjusted prices include dividends and splits, so returns are not distorted
+    on ex-dividend days.
+    """
+    name = COMPANIES.get(code, code)
+    path = RAW_DIR / f"{code}_日线后复权.csv"
+    if path.exists() and not refresh:
+        print(f"  Skip {name} ({code}) - 日线后复权: already downloaded")
+        return
+    print(f"Fetching {name} ({code}) - 日线后复权 ...")
+    df = ak.stock_zh_a_daily(symbol=code, start_date=PRICE_START, end_date="20991231", adjust="hfq")
+    _save(df[["date", "close"]], path)
+    time.sleep(1)
+
+
+def fetch_index(refresh: bool = False) -> None:
+    """CSI 300 index daily close (market proxy for Beta)."""
+    path = RAW_DIR / "指数_沪深300.csv"
+    if path.exists() and not refresh:
+        print("  Skip 沪深300: already downloaded")
+        return
+    print("Fetching CSI 300 index ...")
+    df = ak.stock_zh_index_daily(symbol="sh000300")
+    df = df[pd.to_datetime(df["date"]) >= pd.Timestamp(PRICE_START)]
+    _save(df[["date", "close"]], path)
+
+
 def fetch_risk_free(refresh: bool = False) -> None:
     """China 10Y government bond yield (%), used as the risk-free rate in WACC."""
     path = RAW_DIR / "无风险利率_中国10年国债.csv"
@@ -121,5 +153,7 @@ if __name__ == "__main__":
         fetch_statements(c, refresh)
         fetch_dna(c, refresh)
         fetch_market(c, refresh)
+        fetch_prices(c, refresh)
+    fetch_index(refresh)
     fetch_risk_free(refresh)
     print("Done.")
