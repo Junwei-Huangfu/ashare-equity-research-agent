@@ -1,0 +1,9 @@
+# Python >= 3.11 (tomllib is used to read the config files)
+akshare>=1.18
+pandas>=2.0
+requests>=2.31
+openai>=1.0
+python-dotenv>=1.0
+pymupdf>=1.24
+jieba>=0.42
+rank_bm25>=0.2.2
