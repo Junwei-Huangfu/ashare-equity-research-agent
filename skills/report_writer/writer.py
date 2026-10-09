@@ -61,8 +61,39 @@ def table_to_records(df: pd.DataFrame) -> dict:
     return {m: {str(c): fmt_metric(m, df.loc[m, c]) for c in df.columns} for m in df.index}
 
 
+def peer_rankings(peers: pd.DataFrame, target_name: str) -> dict:
+    """Rank the target among all companies for every metric, so the LLM never has to compare numbers itself.
+
+    peers: rows = metrics, columns = company names (latest year).
+    """
+    out = {}
+    n = peers.shape[1]
+    for m in peers.index:
+        row = peers.loc[m].dropna().sort_values(ascending=False)
+        if target_name not in row.index or len(row) < 2:
+            continue
+        rank = list(row.index).index(target_name) + 1
+        out[m] = {
+            f"{target_name}排名(从高到低)": f"第{rank}/{len(row)}" if len(row) == n else f"第{rank}/{len(row)}(仅{len(row)}家有数据)",
+            "最高": f"{row.index[0]} {fmt_metric(m, row.iloc[0])}",
+            "最低": f"{row.index[-1]} {fmt_metric(m, row.iloc[-1])}",
+            "从高到低": [f"{c} {fmt_metric(m, v)}" for c, v in row.items()],
+        }
+    return out
+
+
 def load_json(name: str) -> dict:
     return json.loads((PROC / name).read_text(encoding="utf-8"))
+
+
+def triggered(v: dict, th: dict) -> list[str]:
+    """Which M-Score model(s) raised the alarm this year, with that model's own drivers."""
+    out = []
+    if v["M5"] is not None and v["M5"] > th["M5"]:
+        out.append(f"5变量模型 (M5 {num(v['M5'])} > {th['M5']}): {v['M5主要驱动']}")
+    if v["M8"] is not None and v["M8"] > th["M8"]:
+        out.append(f"8变量模型 (M8 {num(v['M8'])} > {th['M8']}): {v['M8主要驱动']}")
+    return out or ["无报警"]
 
 
 # ---------------------------------------------------------------- rating rule
@@ -95,6 +126,7 @@ def build_facts(cfg: dict) -> dict:
     sens = pd.read_csv(PROC / "dcf_sensitivity.csv", index_col=0)
     comps = pd.read_csv(PROC / "comps.csv", index_col=0)
 
+    t_row = comps.loc[name]
     a = dcf["assumptions"]
     low, high = summ["fair_value_range"]
     label, pos = rating(summ["price"], low, high, cfg)
@@ -125,14 +157,24 @@ def build_facts(cfg: dict) -> dict:
             "区间两端相对现价空间": f"{pct(summ['upside_at_range'][0])} ~ {pct(summ['upside_at_range'][1])}",
         },
         "财务分析(年度)": table_to_records(fin),
+        "财务分析口径说明": {
+            "有息负债": "年末 短期借款+长期借款+应付债券+一年内到期的非流动负债, 不含租赁负债",
+            "净现金": "年末 货币资金 - 有息负债",
+            "ROE(归母,平均)": "归母净利润 / 平均归母权益",
+            "杜邦_ROE(全部权益)": "净利率 x 总资产周转率 x 权益乘数, 使用全部权益(含少数股东)",
+        },
         "同业比较(最新年度)": table_to_records(peers),
+        "同业排名(由Python计算,比较结论只能引用这里)": peer_rankings(peers, name),
         "WACC": {
             "无风险利率(10年国债)": pct(wacc["risk_free_rate"], 2), "无风险利率日期": wacc["risk_free_date"],
             "回归Beta": num(wacc["beta"]["raw_beta"]), "调整后Beta(Blume)": num(wacc["beta"]["adjusted_beta"]),
             "Beta回归R²": num(wacc["beta"]["r_squared"]), "回归周数": wacc["beta"]["n_weeks"],
             "Beta方法": "过去3年周度后复权收益率对沪深300回归, Blume调整 = 0.67 x 回归Beta + 0.33",
             "股权风险溢价": pct(wacc["equity_risk_premium"]), "股权成本": pct(wacc["cost_of_equity"], 2),
-            "有息负债(亿元)": num(wacc["interest_bearing_debt"] / 1e8), "股权权重": pct(wacc["weight_equity"], 2),
+            "有息负债(亿元)": num(wacc["interest_bearing_debt"] / 1e8),
+            "有息负债口径": f"{wacc['debt_report_date']} 最新已披露资产负债表, 含租赁负债和一年内到期的非流动负债"
+                       "(与财务分析中的年末口径不同)",
+            "股权权重": pct(wacc["weight_equity"], 2),
             "WACC": pct(wacc["wacc"], 2),
             "同业调整后Beta": {k: num(v["adjusted_beta"]) for k, v in wacc["peer_betas"].items()},
         },
@@ -161,6 +203,20 @@ def build_facts(cfg: dict) -> dict:
         },
         "可比公司估值": {
             "统计方法": "同业中位数; 倍数<=0视为无意义并剔除",
+            "口径说明(PE与EV/EBITDA为何结论不同)": {
+                "非经营性净资产(亿元)": num(t_row["总市值(亿)"] - t_row["EV(亿)"]),
+                "非经营性净资产占总市值": pct((t_row["总市值(亿)"] - t_row["EV(亿)"]) / t_row["总市值(亿)"]),
+                "非经营性净资产含义": "货币资金 + 交易性金融资产等投资类资产 - 有息负债 - 少数股东权益(与DCF调整项相同)",
+                "PE(TTM)": "分子是全部市值, 包含上述非经营性净资产; 账上现金和投资越多, PE 越显得低",
+                "EV/EBITDA": "分子 EV = 市值 - 非经营性净资产, 只衡量核心经营业务; 5家公司用同一口径",
+                "EV/EBITDA隐含每股价值的算法": "同业中位数 x 本公司EBITDA + 非经营性净资产(已加回), 再除以总股本",
+                "本公司与同业中位数比较": {
+                    "PE(TTM)": f"本公司 {num(t_row['PE(TTM)'])}x, 同业中位数 {num(summ['comps']['PE(TTM)']['peer_median'])}x, "
+                               + ("本公司低于同业" if t_row["PE(TTM)"] < summ["comps"]["PE(TTM)"]["peer_median"] else "本公司高于同业"),
+                    "EV/EBITDA": f"本公司 {num(t_row['EV/EBITDA'])}x, 同业中位数 {num(summ['comps']['EV/EBITDA']['peer_median'])}x, "
+                                 + ("本公司低于同业" if t_row["EV/EBITDA"] < summ["comps"]["EV/EBITDA"]["peer_median"] else "本公司高于同业"),
+                },
+            },
             "倍数表": {c: {k: (num(v) if isinstance(v, float) else v) for k, v in r.items() if k != "code"}
                     for c, r in comps.iterrows()},
             "隐含每股价值": {k: {"本公司倍数": num(v["target_multiple"]) + "x",
@@ -174,7 +230,8 @@ def build_facts(cfg: dict) -> dict:
             "方法": "Beneish M-Score 5变量(阈值-2.22) 与 8变量(阈值-1.78), 加A股特色红旗规则",
             "最新年度风险等级": risk["risk_level"], "风险等级规则": "最新年度红旗数: 0=低, 1=中, 2个及以上=高",
             "逐年": {y: {"M5": num(v["M5"]), "M8": num(v["M8"]), "红旗": v["红旗"] or ["无"],
-                       "M5主要驱动": v["M5主要驱动"] or "-", "M8主要驱动": v["M8主要驱动"] or "-"}
+                       "M5主要驱动": v["M5主要驱动"] or "-", "M8主要驱动": v["M8主要驱动"] or "-",
+                       "触发报警的模型及其驱动": triggered(v, risk["thresholds"])}
                    for y, v in risk["by_year"].items()},
             "主要驱动计算方法": "贡献 = 系数 x (指数 - 1), TATA 与 0 比较; 列出贡献最大的正向变量, 括号内为对分数的贡献",
             "变量含义": risk["variable_meaning"],
@@ -193,7 +250,11 @@ SYSTEM_PROMPT = """你是一名严谨的A股卖方医药行业分析师，负责
 3. 评级和合理价值区间已由规则确定，必须原样使用，不得修改或给出其他目标价。
 4. 事实数据包没有提供的信息（如具体产品、管理层、行业政策、某个指标变化的业务原因），可以提出合理推测，但必须明确标注"（待年报验证）"，不得当作事实陈述。
 5. 对模型结果要有专业判断：例如 M-Score 报警时，结合"主要驱动"变量解释可能原因，并说明是否可能是误报。
-6. 语言专业、客观、简洁，使用中文。输出 Markdown 格式。"""
+6. 凡是"最高""最低""第几""高于/低于同业""持平"等比较结论，只能引用"同业排名"或"本公司与同业中位数比较"中已给出的结果，不得自己比较数字。
+7. 解释 M-Score 报警时，只引用"触发报警的模型及其驱动"中对应模型的驱动变量。
+8. 解释 PE 与 EV/EBITDA 结论差异时，以"口径说明"为准。
+9. 同一名称的指标若有不同口径（如有息负债），引用时注明口径。
+10. 语言专业、客观、简洁，使用中文。输出 Markdown 格式。"""
 
 REPORT_OUTLINE = """请撰写 {name}（{code}）公司深度研究报告，结构如下：
 
