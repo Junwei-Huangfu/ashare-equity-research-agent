@@ -1,0 +1,20 @@
+# ============================================================
+# Report-writing settings (human judgements, not code)
+# ============================================================
+
+[rating]
+# The rating is decided by Python from the valuation, NOT by the LLM.
+# position = (price - fair_low) / (fair_high - fair_low)
+#   position < 0            -> 买入   (price below the whole fair-value range)
+#   0    <= position < 1/3  -> 增持   (lower third of the range)
+#   1/3  <= position <= 2/3 -> 中性
+#   2/3  <  position <= 1   -> 减持
+#   position > 1            -> 卖出   (price above the whole range)
+lower_third = 0.3333
+upper_third = 0.6667
+
+[llm]
+temperature = 0.3     # low = more factual, less creative
+max_tokens = 16000    # long-form report
+thinking = "disabled" # DeepSeek V4 thinks by default and thinking tokens count towards max_tokens.
+                      # The writer only organises numbers Python already computed, so thinking is not needed.
