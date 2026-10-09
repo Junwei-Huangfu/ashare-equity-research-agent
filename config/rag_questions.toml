@@ -1,0 +1,57 @@
+# ============================================================
+# Questions the annual-report RAG answers (a researcher's judgement: what to verify in the filings)
+# Each question has several search queries (multi-query retrieval): different wordings find
+# different pages — e.g. the MD&A explains WHY, the notes give the breakdown.
+# ============================================================
+
+[retrieval]
+k_per_query = 6          # hits kept per query
+max_evidence = 8         # chunks sent to the LLM per question (best first, one per page)
+policy_penalty = 0.5     # accounting-policy boilerplate repeats keywords but explains nothing -> score x 0.5
+
+[llm]
+temperature = 0.2
+max_tokens = 1500
+thinking = "disabled"
+
+[[question]]
+id = "sales_expense"
+question = "销售费用率为什么从2021年的10.7%升至2025年的13.6%？主要增加在哪些费用项目，公司如何解释？"
+years = [2023, 2024, 2025]
+queries = ["销售费用 增加 原因 说明", "销售费用 广告宣传费 业务宣传费 陈列费 职工薪酬", "线上 销售 推广 投入 渠道"]
+
+[[question]]
+id = "equity_investment"
+question = "2021-2022年长期股权投资大幅增加，投资对象是什么？金额、持股比例、核算方法和投资目的是什么？"
+years = [2021, 2022]
+queries = ["上海医药 认购 股份 持股比例", "长期股权投资 增加 联营企业 上海医药", "重大股权投资 对外投资 战略"]
+
+[[question]]
+id = "receivables"
+question = "应收账款周转天数从2021年的约54天拉长到2025年的约89天，应收账款增加的原因是什么？账龄和主要欠款方结构如何？"
+years = [2021, 2022, 2025]
+queries = ["应收账款 比重 增减 重大变动说明", "应收账款 账龄 期末余额 前五名", "应收账款 增加 原因 销售规模 医疗机构"]
+
+[[question]]
+id = "segments"
+question = "公司各业务板块（如工业、商业，或分产品）的收入和毛利率结构如何？毛利率提升的原因是什么？"
+years = [2024, 2025]
+queries = ["营业收入构成 分行业 分产品 占营业收入比重", "工业销售 商业销售 毛利率 比上年同期增减", "毛利率 提升 原因 产品结构"]
+
+[[question]]
+id = "financial_assets"
+question = "交易性金融资产主要投资了什么（理财、结构性存款、股票等）？公司的投资策略是什么？"
+years = [2025]
+queries = ["交易性金融资产 期末余额 理财 结构性存款", "证券投资情况 股票 公允价值 变动", "委托理财 现金管理"]
+
+[[question]]
+id = "risks"
+question = "管理层在年报中披露的主要风险有哪些？对应的应对措施是什么？"
+years = [2025]
+queries = ["可能面对的风险 应对措施", "风险 原材料 价格 政策 集采 竞争"]
+
+[[question]]
+id = "advantages"
+question = "公司的核心竞争优势和主要产品是什么？"
+years = [2025]
+queries = ["核心竞争力分析", "品牌 产品 白药 牙膏 市场"]
