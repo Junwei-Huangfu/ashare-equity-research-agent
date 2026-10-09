@@ -1,0 +1,24 @@
+{
+  "report": "sz000538_draft_v2.md",
+  "numbers_total": 400,
+  "numbers_traced": 399,
+  "traceability": 0.9975,
+  "untraceable": [
+    {
+      "number": "4.9",
+      "context": "6 | 13.1% |  ROE的提升由净利率（+4.9个百分点）与总资产周转率"
+    }
+  ],
+  "page_citations_total": 0,
+  "page_citations_invalid": [],
+  "rating_expected": "增持",
+  "rating_stated": [
+    "增持"
+  ],
+  "rating_ok": true,
+  "fair_value_range_expected": "50.51 ~ 68.09",
+  "range_ok": true,
+  "missing_sections": [],
+  "open_items_待年报验证": 6,
+  "passed": false
+}

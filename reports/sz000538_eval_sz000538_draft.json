@@ -1,0 +1,19 @@
+{
+  "report": "sz000538_draft.md",
+  "numbers_total": 465,
+  "numbers_traced": 465,
+  "traceability": 1.0,
+  "untraceable": [],
+  "page_citations_total": 32,
+  "page_citations_invalid": [],
+  "rating_expected": "增持",
+  "rating_stated": [
+    "增持"
+  ],
+  "rating_ok": true,
+  "fair_value_range_expected": "50.51 ~ 68.09",
+  "range_ok": true,
+  "missing_sections": [],
+  "open_items_待年报验证": 4,
+  "passed": true
+}

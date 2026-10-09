@@ -18,3 +18,17 @@ temperature = 0.3     # low = more factual, less creative
 max_tokens = 16000    # long-form report
 thinking = "disabled" # DeepSeek V4 thinks by default and thinking tokens count towards max_tokens.
                       # The writer only organises numbers Python already computed, so thinking is not needed.
+
+[review]
+# Reviewer agent: a STRONGER model with thinking ON, because finding contradictions needs real reasoning
+# (the writer only re-organises Python-computed facts, so it runs with thinking off).
+model = "deepseek-v4-pro"
+thinking = "enabled"
+max_tokens = 32000    # thinking tokens + the JSON issue list
+
+[revise]
+# Reviser agent: the fast model fixes the draft issue by issue
+model = "deepseek-flash"
+thinking = "disabled"
+temperature = 0.2
+max_tokens = 16000

@@ -1,0 +1,7 @@
+{
+  "model": "deepseek-flash",
+  "seconds": 20.3,
+  "prompt_tokens": 22600,
+  "completion_tokens": 7376,
+  "finish_reason": "stop"
+}
